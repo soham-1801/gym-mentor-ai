@@ -1,0 +1,273 @@
+/* =========================================================
+   Apna AI Gym Coach - Premium UI Style sheet
+========================================================= */
+
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap');
+
+/* Main Background */
+.stApp {
+  background: radial-gradient(circle at 50% 0%, #151C30 0%, #060913 70%);
+  background-color: #060913;
+  color: #E2E8F0;
+  font-family: 'Outfit', 'AdobeClean', sans-serif !important;
+}
+
+[data-testid="stSidebar"] {
+  background-color: #0C0F1A !important;
+  border-right: 1px solid rgba(255, 255, 255, 0.04);
+}
+
+/* Typography Overrides */
+.block-container,
+.block-container * {
+  font-family: 'Outfit', 'AdobeClean', sans-serif !important;
+}
+
+/* Glassmorphism Cards & Metrics */
+[data-testid="stMetric"] {
+  background: rgba(18, 24, 38, 0.65) !important;
+  backdrop-filter: blur(12px) !important;
+  -webkit-backdrop-filter: blur(12px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.07) !important;
+  padding: 1.25rem 1.5rem !important;
+  border-radius: 16px !important;
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.25) !important;
+  transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease !important;
+}
+
+[data-testid="stMetric"]:hover {
+  transform: translateY(-2px) !important;
+  border-color: rgba(0, 210, 255, 0.4) !important;
+  box-shadow: 0 12px 40px 0 rgba(0, 210, 255, 0.15) !important;
+}
+
+[data-testid="stMetricValue"] {
+  font-size: 1.85rem !important;
+  font-weight: 700 !important;
+  background: linear-gradient(135deg, #00D2FF 0%, #00FF9D 100%) !important;
+  -webkit-background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+  margin-top: 0.25rem !important;
+}
+
+[data-testid="stMetricLabel"] {
+  font-size: 13px !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.1em !important;
+  color: #94A3B8 !important;
+  font-weight: 600 !important;
+}
+
+/* Main Dashboard Elements */
+h1 {
+  background: linear-gradient(135deg, #FFFFFF 30%, #94A3B8 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-weight: 800 !important;
+  letter-spacing: -0.02em;
+}
+
+h2, h3, h4 {
+  color: #FFFFFF !important;
+  font-weight: 600 !important;
+}
+
+/* Buttons Styling */
+button,
+.stButton button,
+.stDownloadButton button {
+  background: linear-gradient(135deg, #182235 0%, #0F172A 100%) !important;
+  color: #FFFFFF !important;
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+  border-radius: 12px !important;
+  padding: 0.65rem 1.5rem !important;
+  font-weight: 600 !important;
+  font-size: 0.95rem !important;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1) !important;
+}
+
+button:hover,
+.stButton button:hover {
+  background: linear-gradient(135deg, #2563EB 0%, #1D4ED8 100%) !important;
+  border-color: rgba(59, 130, 246, 0.5) !important;
+  transform: translateY(-1px) !important;
+  box-shadow: 0 6px 20px rgba(37, 99, 235, 0.3) !important;
+}
+
+button:active,
+.stButton button:active {
+  transform: translateY(1px) !important;
+}
+
+/* Start Session Button Style (Form Submit) */
+[data-testid="stBaseButton-secondaryFormSubmit"],
+.stButton button[key*="start"],
+button[key*="start"] {
+  background: linear-gradient(135deg, #10B981 0%, #059669 100%) !important;
+  border-color: rgba(16, 185, 129, 0.3) !important;
+}
+
+[data-testid="stBaseButton-secondaryFormSubmit"]:hover,
+.stButton button[key*="start"]:hover {
+  background: linear-gradient(135deg, #34D399 0%, #10B981 100%) !important;
+  box-shadow: 0 6px 20px rgba(16, 185, 129, 0.4) !important;
+}
+
+/* End Session Button Style */
+button[key*="end"] {
+  background: linear-gradient(135deg, #EF4444 0%, #DC2626 100%) !important;
+  border-color: rgba(239, 68, 68, 0.3) !important;
+}
+
+button[key*="end"]:hover {
+  background: linear-gradient(135deg, #F87171 0%, #EF4444 100%) !important;
+  box-shadow: 0 6px 20px rgba(239, 68, 68, 0.4) !important;
+}
+
+/* Inputs and Forms */
+input,
+textarea,
+[data-testid="stSelectbox"] > div > div,
+[data-baseweb="select"] > div {
+  background-color: #0F172A !important;
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+  border-radius: 12px !important;
+  color: #FFFFFF !important;
+  font-size: 0.95rem !important;
+  transition: border-color 0.25s ease !important;
+}
+
+input:focus,
+[data-baseweb="select"] > div:focus-within {
+  border-color: #3B82F6 !important;
+}
+
+.stForm {
+  background: rgba(15, 23, 42, 0.4) !important;
+  border: 1px solid rgba(255, 255, 255, 0.06) !important;
+  border-radius: 20px !important;
+  padding: 2rem !important;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.3) !important;
+}
+
+/* WebRTC Video Container */
+div[data-st-key="exercise-analysis"] iframe,
+div[data-testid="element-container"] iframe {
+  border-radius: 16px !important;
+  border: 2px solid rgba(0, 210, 255, 0.25) !important;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4) !important;
+  min-height: 520px !important;
+  height: 520px !important;
+  width: 100% !important;
+}
+
+/* Table Design */
+.stTable, table {
+  border-collapse: separate !important;
+  border-spacing: 0 8px !important;
+  width: 100% !important;
+}
+
+.stTable tr, table tr {
+  background-color: rgba(30, 41, 59, 0.3) !important;
+  border-radius: 12px !important;
+  transition: background-color 0.2s ease;
+}
+
+.stTable tr:hover, table tr:hover {
+  background-color: rgba(30, 41, 59, 0.5) !important;
+}
+
+.stTable th, table th {
+  background-color: transparent !important;
+  color: #94A3B8 !important;
+  border: none !important;
+  font-weight: 600 !important;
+  text-transform: uppercase !important;
+  font-size: 11px !important;
+  letter-spacing: 0.08em !important;
+  padding: 12px 16px !important;
+}
+
+.stTable td, table td {
+  border: none !important;
+  padding: 14px 16px !important;
+  color: #E2E8F0 !important;
+}
+
+.stTable td:first-child, table td:first-child {
+  border-top-left-radius: 12px !important;
+  border-bottom-left-radius: 12px !important;
+}
+
+.stTable td:last-child, table td:last-child {
+  border-top-right-radius: 12px !important;
+  border-bottom-right-radius: 12px !important;
+}
+
+/* Divider styling */
+hr {
+  margin: 1.5rem 0 !important;
+  border: none !important;
+  height: 1px !important;
+  background: linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.06) 50%, rgba(255,255,255,0) 100%) !important;
+}
+
+/* Pulse Animation for Status Indicators */
+.pulse-indicator {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  background-color: #10B981;
+  border-radius: 50%;
+  margin-right: 8px;
+  box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7);
+  animation: pulse 1.6s infinite;
+  vertical-align: middle;
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(0.95);
+    box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7);
+  }
+  70% {
+    transform: scale(1);
+    box-shadow: 0 0 0 6px rgba(16, 185, 129, 0);
+  }
+  100% {
+    transform: scale(0.95);
+    box-shadow: 0 0 0 0 rgba(16, 185, 129, 0);
+  }
+}
+
+/* Custom Scrollbars */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #060913;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #1E293B;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #334155;
+}
+
+/* Styling for Streamlit Audio Component */
+div[data-testid="stAudio"] {
+  margin-top: 15px;
+  margin-bottom: 15px;
+  background: rgba(18, 24, 38, 0.5) !important;
+  border-radius: 12px !important;
+  padding: 10px !important;
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3) !important;
+}
