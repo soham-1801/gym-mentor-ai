@@ -104,6 +104,8 @@ class VideoProcessorClass(VideoProcessorBase):
 
         # Phase 1 — Breathing Cues
         self.last_breathing_cue_set = -1       # which set index breathing was last cued
+        self.frame_counter = 0
+        self.last_results = None
 
     def _init_detector(self, exercise_type):
         """Instantiate the correct detector for the given exercise type."""
@@ -257,15 +259,20 @@ class VideoProcessorClass(VideoProcessorBase):
         # Switch detector if exercise changed
         self._maybe_switch_detector()
 
-        # Process pose estimation on downscaled image for 10x faster real-time cloud CPU performance
-        img_rgb = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
-        scale_w = 480
-        if w > scale_w:
-            scale_h = int(h * (scale_w / w))
-            img_small = cv2.resize(img_rgb, (scale_w, scale_h), interpolation=cv2.INTER_LINEAR)
-            results = self.pose.process(img_small)
+        self.frame_counter += 1
+        if self.frame_counter % 2 != 0 or self.last_results is None:
+            # Process pose estimation on downscaled image for 10x faster real-time cloud CPU performance
+            img_rgb = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+            scale_w = 360
+            if w > scale_w:
+                scale_h = int(h * (scale_w / w))
+                img_small = cv2.resize(img_rgb, (scale_w, scale_h), interpolation=cv2.INTER_LINEAR)
+                results = self.pose.process(img_small)
+            else:
+                results = self.pose.process(img_rgb)
+            self.last_results = results
         else:
-            results = self.pose.process(img_rgb)
+            results = self.last_results
 
         if results.pose_landmarks:
             # Draw skeleton on video
