@@ -1,12 +1,17 @@
 import cv2
 import mediapipe as mp
+_mp_import_error = ""
 try:
     import mediapipe.python.solutions as mp_solutions
-except (ImportError, AttributeError):
+except Exception as e1:
+    _mp_import_error = f"mediapipe.python.solutions failed: {e1}"
     try:
         import mediapipe.solutions as mp_solutions
-    except (ImportError, AttributeError):
+    except Exception as e2:
+        _mp_import_error += f" | mediapipe.solutions failed: {e2}"
         mp_solutions = getattr(mp, "solutions", None)
+        if mp_solutions is None:
+            _mp_import_error += f" | getattr(mp, 'solutions') is None"
 
 import numpy as np
 import logging
@@ -34,7 +39,7 @@ class VideoProcessorClass(VideoProcessorBase):
     def __init__(self):
         # Initialize MediaPipe Pose
         if mp_solutions is None:
-            raise RuntimeError("MediaPipe solutions could not be imported. Please ensure OpenCV and system GL libraries (libgl1, libsm6, libxext6) are installed.")
+            raise RuntimeError(f"MediaPipe solutions could not be imported. Details: {_mp_import_error}. Please ensure Python 3.11/3.12 is selected in Streamlit Cloud settings and system GL libraries are present.")
         self.mp_pose = mp_solutions.pose
         self.pose = self.mp_pose.Pose(
             min_detection_confidence=0.5,
