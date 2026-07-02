@@ -1,5 +1,4 @@
 libgl1
-libgl1-mesa-glx
 libegl1
 libgles2
 ocl-icd-libopencl1
