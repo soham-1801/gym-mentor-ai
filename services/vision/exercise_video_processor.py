@@ -1,5 +1,13 @@
 import cv2
 import mediapipe as mp
+try:
+    import mediapipe.python.solutions as mp_solutions
+except (ImportError, AttributeError):
+    try:
+        import mediapipe.solutions as mp_solutions
+    except (ImportError, AttributeError):
+        mp_solutions = getattr(mp, "solutions", None)
+
 import numpy as np
 import logging
 from typing import Optional
@@ -25,12 +33,14 @@ EXERCISE_DETECTOR_MAP = {
 class VideoProcessorClass(VideoProcessorBase):
     def __init__(self):
         # Initialize MediaPipe Pose
-        self.mp_pose = mp.solutions.pose
+        if mp_solutions is None:
+            raise RuntimeError("MediaPipe solutions could not be imported. Please ensure OpenCV and system GL libraries (libgl1, libsm6, libxext6) are installed.")
+        self.mp_pose = mp_solutions.pose
         self.pose = self.mp_pose.Pose(
             min_detection_confidence=0.5,
             min_tracking_confidence=0.5
         )
-        self.mp_drawing = mp.solutions.drawing_utils
+        self.mp_drawing = mp_solutions.drawing_utils
 
         # State & Settings
         self.exercise_type = "Squats"
