@@ -1,6 +1,6 @@
 streamlit>=1.40.0
 streamlit-webrtc>=0.63.0
-mediapipe>=0.10.14
+mediapipe==0.10.14
 opencv-python-headless>=4.10.0
 numpy==1.26.4
 protobuf>=3.20,<5.0.0
