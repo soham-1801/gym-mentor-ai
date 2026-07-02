@@ -1,7 +1,60 @@
+# Environments
 .venv/
+venv/
+env/
+ENV/
+*.env
+*.env.*
+!.env.example
+
+# Python
 __pycache__/
-*.pyc
+*.py[cod]
+*$py.class
+*.so
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+*.manifest
+*.spec
+
+# Databases & Cache
 *.db
 *.sqlite3
+*.sqlite
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+.streamlit/
+
+# Logs & Debug Output
+*.log
+dedented_output.txt
+*.tmp
+*.bak
+*.swp
+*~
+output.txt
+debug.log
+
+# OS & IDE
 .DS_Store
-.env
+Thumbs.db
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
