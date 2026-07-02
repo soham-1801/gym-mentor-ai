@@ -260,10 +260,10 @@ class VideoProcessorClass(VideoProcessorBase):
         self._maybe_switch_detector()
 
         self.frame_counter += 1
-        if self.frame_counter % 2 != 0 or self.last_results is None:
-            # Process pose estimation on downscaled image for 10x faster real-time cloud CPU performance
+        if self.frame_counter % 3 == 0 or self.last_results is None:
+            # Process pose estimation on downscaled image for ultra-fast real-time cloud CPU performance
             img_rgb = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
-            scale_w = 360
+            scale_w = 256
             if w > scale_w:
                 scale_h = int(h * (scale_w / w))
                 img_small = cv2.resize(img_rgb, (scale_w, scale_h), interpolation=cv2.INTER_LINEAR)
