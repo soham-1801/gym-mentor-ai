@@ -1,14 +1,14 @@
 import cv2
 import mediapipe as mp
-_mp_import_error = f"[file={getattr(mp, '__file__', 'N/A')} | dir={dir(mp)}] "
+_mp_import_error = ""
 try:
     import mediapipe.python.solutions as mp_solutions
 except Exception as e1:
-    _mp_import_error += f"mediapipe.python.solutions: {e1}"
+    _mp_import_error = f"mediapipe.python.solutions failed: {e1}"
     try:
         import mediapipe.solutions as mp_solutions
     except Exception as e2:
-        _mp_import_error += f" | mediapipe.solutions: {e2}"
+        _mp_import_error += f" | mediapipe.solutions failed: {e2}"
         mp_solutions = getattr(mp, "solutions", None)
         if mp_solutions is None:
             _mp_import_error += f" | getattr(mp, 'solutions') is None"
@@ -42,7 +42,6 @@ class VideoProcessorClass(VideoProcessorBase):
             raise RuntimeError(f"MediaPipe solutions could not be imported. Details: {_mp_import_error}. Please ensure Python 3.11/3.12 is selected in Streamlit Cloud settings and system GL libraries are present.")
         self.mp_pose = mp_solutions.pose
         self.pose = self.mp_pose.Pose(
-            model_complexity=1,
             min_detection_confidence=0.5,
             min_tracking_confidence=0.5
         )
@@ -57,10 +56,6 @@ class VideoProcessorClass(VideoProcessorBase):
         self._current_exercise_type = None
         self._detector = None
         self._init_detector("Squats")
-
-        # Performance optimization properties for cloud CPU streaming
-        self.frame_counter = 0
-        self.last_results = None
 
         # Tracking metrics (pulled from detector each frame)
         self.reps = 0
@@ -260,16 +255,10 @@ class VideoProcessorClass(VideoProcessorBase):
 
         # Switch detector if exercise changed
         self._maybe_switch_detector()
-        self.frame_counter += 1
 
-        # Process pose estimation ONLY on every 2nd frame using 0.5x image (240x180 native input, ~10ms speed!)
-        if self.frame_counter % 2 == 1 or self.last_results is None:
-            img_rgb = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
-            img_small = cv2.resize(img_rgb, (0, 0), fx=0.5, fy=0.5, interpolation=cv2.INTER_LINEAR)
-            img_small.flags.writeable = False
-            self.last_results = self.pose.process(img_small)
-
-        results = self.last_results
+        # Process pose estimation
+        img_rgb = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+        results = self.pose.process(img_rgb)
 
         if results.pose_landmarks:
             # Draw skeleton on video

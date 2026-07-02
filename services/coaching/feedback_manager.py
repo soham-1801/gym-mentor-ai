@@ -250,31 +250,15 @@ def finalize_workout_feedback():
     st.session_state.recommendation = feedback["recommendation"]
     
     if st.session_state.get("sets_completed", 0) > 0:
-        try:
-            import sqlite3
-            from services.persistence.exercise_repository import DB_PATH
-            conn = sqlite3.connect(DB_PATH)
-            cursor = conn.cursor()
-            cursor.execute("""
-                UPDATE exercises 
-                SET feedback_summary = ?, strongest_area = ?, weakest_area = ?, improvement_percentage = ?
-                WHERE id = (
-                    SELECT id FROM exercises 
-                    WHERE user_id = ? AND exercise_name = ?
-                    ORDER BY created_at DESC LIMIT 1
-                )
-            """, (
-                feedback["feedback_summary"],
-                feedback["strongest_area"],
-                feedback["weakest_area"],
-                feedback["improvement_percentage"],
-                st.session_state.user_id,
-                st.session_state.exercise_type
-            ))
-            conn.commit()
-            conn.close()
-        except Exception as e:
-            logging.error(f"Failed to update last exercise row with feedback: {e}")
+        from services.persistence.exercise_repository import update_latest_exercise_feedback
+        update_latest_exercise_feedback(
+            st.session_state.get("user_id", 0),
+            st.session_state.get("exercise_type", "Squats"),
+            feedback["feedback_summary"],
+            feedback["strongest_area"],
+            feedback["weakest_area"],
+            feedback["improvement_percentage"]
+        )
             
     return feedback
 

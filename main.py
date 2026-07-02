@@ -82,7 +82,12 @@ def main():
             # Find the failed item in the queue
             failed_item = next((item for item in st.session_state.browser_speech_queue if abs(item["id"] - failed_id) < 0.001), None)
             if failed_item:
-                logging.warning(f"[main.py] Speech failed for ID: {failed_id}. Text: '{failed_item['text']}'. Keeping Web Speech API.")
+                logging.warning(f"[main.py] Speech failed for ID: {failed_id}. Text: '{failed_item['text']}'. Automatically falling back to pyttsx3 / gTTS.")
+                # Switch voice engine to pyttsx3 / gTTS
+                st.session_state.voice_engine = "pyttsx3 / gTTS"
+                # Speak using the fallback engine
+                if st.session_state.voice_pipeline:
+                    st.session_state.voice_pipeline.speak(failed_item["text"], priority="high")
                 # Remove from browser speech queue
                 st.session_state.browser_speech_queue = [
                     item for item in st.session_state.browser_speech_queue if item["id"] != failed_item["id"]
@@ -409,7 +414,7 @@ def main():
             voice_engine = st.selectbox(
                 "Voice Engine",
                 options=["Web Speech API", "pyttsx3 / gTTS"],
-                index=0 if st.session_state.get("voice_engine", "Web Speech API") == "Web Speech API" else 1,
+                index=0 if st.session_state.get("voice_engine", "pyttsx3 / gTTS") == "Web Speech API" else 1,
                 key="voice_engine_select",
                 help="Web Speech API plays in browser. pyttsx3/gTTS runs on the server."
             )
@@ -488,7 +493,7 @@ def main():
                 st.markdown("**Speak Called Count:** `0`")
                 
             st.markdown(f"**Voice Enabled:** `{st.session_state.get('voice_enabled', True)}`")
-            st.markdown(f"**Active Engine:** `{st.session_state.get('voice_engine', 'Web Speech API')}`")
+            st.markdown(f"**Active Engine:** `{st.session_state.get('voice_engine', 'pyttsx3 / gTTS')}`")
             st.markdown(f"**Browser Queue Size:** `{len(st.session_state.get('browser_speech_queue', []))}`")
             st.markdown(f"**Last Event:** `{st.session_state.get('last_event_info', 'None')}`")
 
@@ -931,13 +936,13 @@ def main():
                     rtc_configuration={"iceServers": [{"urls": ["stun:stun.l.google.com:19302"]}]},
                     media_stream_constraints={
                         "video": {
-                            "width": {"ideal": 480},
-                            "height": {"ideal": 360},
-                            "frameRate": {"ideal": 15, "max": 15}
+                            "width": {"ideal": 1280},
+                            "height": {"ideal": 720},
+                            "frameRate": {"ideal": 30}
                         },
                         "audio": False
                     },
-                    async_processing=False
+                    async_processing=True
                 )
 
                 sync_metrics_update(context)

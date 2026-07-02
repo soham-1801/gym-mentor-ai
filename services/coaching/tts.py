@@ -69,7 +69,7 @@ class TextToSpeech:
                     engine.setProperty("voice", voice.id)
                     break
 
-            with tempfile.NamedTemporaryFile(suffix=".mp3", delete=False) as tmp:
+            with tempfile.NamedTemporaryFile(suffix=".wav", delete=False) as tmp:
                 tmp_path = tmp.name
 
             logging.info(f"[TextToSpeech] Saving offline speech to temp file: {tmp_path}")

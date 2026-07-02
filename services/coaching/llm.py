@@ -1,7 +1,7 @@
 import logging
 
 class LLMCoach:
-    def __init__(self, groq_client):
+    def __init__(self, groq_client=None):
         self.client = groq_client
         self.model = "llama-3.3-70b-versatile"
         

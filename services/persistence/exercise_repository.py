@@ -3,6 +3,14 @@ import os
 
 DB_PATH = os.path.join(os.getcwd(), "gym_trainer.db")
 
+def _clean_user_id(user_id):
+    if isinstance(user_id, dict):
+        user_id = user_id.get("id", 0)
+    try:
+        return int(user_id) if user_id is not None else 0
+    except (ValueError, TypeError):
+        return 0
+
 def init_db():
     conn = sqlite3.connect(DB_PATH)
     cursor = conn.cursor()
@@ -109,21 +117,27 @@ def get_or_create_user(username):
         return None
 
 def update_user_streaks(user_id, current_streak, longest_streak, last_workout_date):
-    conn = sqlite3.connect(DB_PATH)
-    cursor = conn.cursor()
-    cursor.execute("""
-        UPDATE users 
-        SET current_streak = ?, longest_streak = ?, last_workout_date = ? 
-        WHERE id = ?
-    """, (int(current_streak), int(longest_streak), last_workout_date, user_id))
-    conn.commit()
-    conn.close()
+    try:
+        user_id = _clean_user_id(user_id)
+        conn = sqlite3.connect(DB_PATH)
+        cursor = conn.cursor()
+        cursor.execute("""
+            UPDATE users 
+            SET current_streak = ?, longest_streak = ?, last_workout_date = ? 
+            WHERE id = ?
+        """, (int(current_streak), int(longest_streak), last_workout_date, user_id))
+        conn.commit()
+        conn.close()
+    except Exception as e:
+        import logging
+        logging.error(f"[exercise_repository] update_user_streaks failed: {e}")
 
 
 def update_user_profile(user_id, user_goal: str = None, body_weight_kg: float = None,
                         height_cm: float = None, age: int = None):
     """Update user profile fields in the DB."""
     try:
+        user_id = _clean_user_id(user_id)
         conn = sqlite3.connect(DB_PATH)
         cursor = conn.cursor()
         fields = []
@@ -151,6 +165,7 @@ def update_user_profile(user_id, user_goal: str = None, body_weight_kg: float = 
 def save_schedule(user_id: int, days: list, workout_time: str, program_name: str):
     """Save workout schedule for given days (0=Mon…6=Sun). Replaces existing."""
     try:
+        user_id = _clean_user_id(user_id)
         conn = sqlite3.connect(DB_PATH)
         cursor = conn.cursor()
         # Clear existing schedule for this user
@@ -171,6 +186,7 @@ def save_schedule(user_id: int, days: list, workout_time: str, program_name: str
 def get_schedule(user_id: int) -> list:
     """Return list of schedule rows for a user."""
     try:
+        user_id = _clean_user_id(user_id)
         conn = sqlite3.connect(DB_PATH)
         conn.row_factory = sqlite3.Row
         cursor = conn.cursor()
@@ -187,37 +203,76 @@ def get_schedule(user_id: int) -> list:
         return []
 
 def get_users_exercises(user_id):
-    conn = sqlite3.connect(DB_PATH)
-    conn.row_factory = sqlite3.Row
-    cursor = conn.cursor()
-    
-    cursor.execute("""
-        SELECT exercise_name, reps, sets, time, average_form_score, best_form_score, 
-               feedback_summary, strongest_area, weakest_area, improvement_percentage, created_at 
-        FROM exercises 
-        WHERE user_id = ? 
-        ORDER BY created_at DESC
-    """, (user_id,))
-    rows = cursor.fetchall()
-    
-    exercises_list = [dict(row) for row in rows]
-    conn.close()
-    return exercises_list
+    try:
+        user_id = _clean_user_id(user_id)
+        conn = sqlite3.connect(DB_PATH)
+        conn.row_factory = sqlite3.Row
+        cursor = conn.cursor()
+        
+        cursor.execute("""
+            SELECT exercise_name, reps, sets, time, average_form_score, best_form_score, 
+                   feedback_summary, strongest_area, weakest_area, improvement_percentage, created_at 
+            FROM exercises 
+            WHERE user_id = ? 
+            ORDER BY created_at DESC
+        """, (user_id,))
+        rows = cursor.fetchall()
+        
+        exercises_list = [dict(row) for row in rows]
+        conn.close()
+        return exercises_list
+    except Exception as e:
+        import logging
+        logging.error(f"[exercise_repository] get_users_exercises failed: {e}")
+        return []
 
 def save_exercise(user_id, exercise_name, reps, sets, time_spent, average_form_score=None, best_form_score=None,
                   feedback_summary=None, strongest_area=None, weakest_area=None, improvement_percentage=None):
-    conn = sqlite3.connect(DB_PATH)
-    cursor = conn.cursor()
-    
-    cursor.execute("""
-        INSERT INTO exercises (user_id, exercise_name, reps, sets, time, average_form_score, best_form_score,
-                               feedback_summary, strongest_area, weakest_area, improvement_percentage)
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-    """, (user_id, exercise_name, reps, sets, float(time_spent), 
-            float(average_form_score) if average_form_score is not None else None, 
-            float(best_form_score) if best_form_score is not None else None,
-            feedback_summary, strongest_area, weakest_area,
-            float(improvement_percentage) if improvement_percentage is not None else None))
-    
-    conn.commit()
-    conn.close()
+    try:
+        user_id = _clean_user_id(user_id)
+        conn = sqlite3.connect(DB_PATH)
+        cursor = conn.cursor()
+        
+        cursor.execute("""
+            INSERT INTO exercises (user_id, exercise_name, reps, sets, time, average_form_score, best_form_score,
+                                   feedback_summary, strongest_area, weakest_area, improvement_percentage)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        """, (user_id, exercise_name, int(reps or 0), int(sets or 0), float(time_spent or 0.0), 
+                float(average_form_score) if average_form_score is not None else None, 
+                float(best_form_score) if best_form_score is not None else None,
+                feedback_summary, strongest_area, weakest_area,
+                float(improvement_percentage) if improvement_percentage is not None else None))
+        
+        conn.commit()
+        conn.close()
+    except Exception as e:
+        import logging
+        logging.error(f"[exercise_repository] save_exercise failed: {e}")
+
+
+def update_latest_exercise_feedback(user_id, exercise_name, feedback_summary, strongest_area, weakest_area, improvement_percentage):
+    try:
+        user_id = _clean_user_id(user_id)
+        conn = sqlite3.connect(DB_PATH)
+        cursor = conn.cursor()
+        cursor.execute("""
+            UPDATE exercises 
+            SET feedback_summary = ?, strongest_area = ?, weakest_area = ?, improvement_percentage = ?
+            WHERE id = (
+                SELECT id FROM exercises 
+                WHERE user_id = ? AND exercise_name = ?
+                ORDER BY created_at DESC LIMIT 1
+            )
+        """, (
+            feedback_summary,
+            strongest_area,
+            weakest_area,
+            float(improvement_percentage) if improvement_percentage is not None else 0.0,
+            user_id,
+            exercise_name
+        ))
+        conn.commit()
+        conn.close()
+    except Exception as e:
+        import logging
+        logging.error(f"[exercise_repository] update_latest_exercise_feedback failed: {e}")

@@ -132,7 +132,7 @@ class VoicePipeline:
 
         volume = st.session_state.get("voice_volume", 1.0)
         gender = st.session_state.get("voice_gender", "Female")
-        engine = st.session_state.get("voice_engine", "Web Speech API")
+        engine = st.session_state.get("voice_engine", "pyttsx3 / gTTS")
 
         logging.debug(f"[VoicePipeline] Proceeding to speak: text='{text}', engine='{engine}', volume={volume}, gender='{gender}', priority='{priority}'")
 
