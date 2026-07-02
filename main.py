@@ -11,7 +11,7 @@ from services.config.goal_config import GOALS, GOAL_NAMES, get_goal_config, get_
 from services.ui.style_loader import load_css, inject_local_font, inject_webrtc_styles
 from services.persistence.exercise_repository import init_db, update_user_profile, save_schedule, get_schedule
 from streamlit_webrtc import webrtc_streamer, WebRtcMode
-from services.vision.exercise_video_processor import VideoProcessorClass
+from services.vision.exercise_video_processor import VideoProcessorClass, mp_solutions, _mp_import_error
 from services.tracking.metrics import sync_metrics_update
 from services.persistence.exercise_repository import get_users_exercises
 from services.scheduling.workout_scheduler import check_today_schedule, format_schedule_summary, calculate_bmi, bmi_category, DAY_NAMES
@@ -924,6 +924,10 @@ def main():
                     """,
                     unsafe_allow_html=True
                 )
+
+                if mp_solutions is None:
+                    st.error(f"🚨 **MediaPipe Failed to Load!**\n\n**Exact Error:** `{_mp_import_error}`\n\n**How to fix:** This is usually due to NumPy 2.x or missing Linux GLib libraries. We have updated requirements.txt and packages.txt — please click **Manage App** -> **⋮** -> **Clear cache and deploy**!")
+                    return
 
                 context = webrtc_streamer(
                     key="exercise-analysis",
