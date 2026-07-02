@@ -1,9 +1,11 @@
 libgl1
+libgl1-mesa-glx
 libegl1
 libgles2
 ocl-icd-libopencl1
 ocl-icd-opencl-dev
 libglib2.0-dev
+libgomp1
 libsm6
 libxext6
 libxrender1
