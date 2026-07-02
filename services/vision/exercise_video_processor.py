@@ -42,6 +42,7 @@ class VideoProcessorClass(VideoProcessorBase):
             raise RuntimeError(f"MediaPipe solutions could not be imported. Details: {_mp_import_error}. Please ensure Python 3.11/3.12 is selected in Streamlit Cloud settings and system GL libraries are present.")
         self.mp_pose = mp_solutions.pose
         self.pose = self.mp_pose.Pose(
+            model_complexity=0,
             min_detection_confidence=0.5,
             min_tracking_confidence=0.5
         )
@@ -258,7 +259,9 @@ class VideoProcessorClass(VideoProcessorBase):
 
         # Process pose estimation
         img_rgb = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+        img_rgb.flags.writeable = False
         results = self.pose.process(img_rgb)
+        img_rgb.flags.writeable = True
 
         if results.pose_landmarks:
             # Draw skeleton on video

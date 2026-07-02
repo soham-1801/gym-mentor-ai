@@ -936,9 +936,9 @@ def main():
                     rtc_configuration={"iceServers": [{"urls": ["stun:stun.l.google.com:19302"]}]},
                     media_stream_constraints={
                         "video": {
-                            "width": {"ideal": 1280},
-                            "height": {"ideal": 720},
-                            "frameRate": {"ideal": 30}
+                            "width": {"ideal": 640},
+                            "height": {"ideal": 480},
+                            "frameRate": {"ideal": 24}
                         },
                         "audio": False
                     },
