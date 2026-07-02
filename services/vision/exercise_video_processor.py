@@ -1,14 +1,14 @@
 import cv2
 import mediapipe as mp
-_mp_import_error = ""
+_mp_import_error = f"[file={getattr(mp, '__file__', 'N/A')} | dir={dir(mp)}] "
 try:
     import mediapipe.python.solutions as mp_solutions
 except Exception as e1:
-    _mp_import_error = f"mediapipe.python.solutions failed: {e1}"
+    _mp_import_error += f"mediapipe.python.solutions: {e1}"
     try:
         import mediapipe.solutions as mp_solutions
     except Exception as e2:
-        _mp_import_error += f" | mediapipe.solutions failed: {e2}"
+        _mp_import_error += f" | mediapipe.solutions: {e2}"
         mp_solutions = getattr(mp, "solutions", None)
         if mp_solutions is None:
             _mp_import_error += f" | getattr(mp, 'solutions') is None"
