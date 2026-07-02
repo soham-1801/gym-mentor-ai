@@ -926,7 +926,9 @@ def main():
                 )
 
                 if mp_solutions is None:
-                    st.error(f"🚨 **MediaPipe Failed to Load!**\n\n**Exact Error:** `{_mp_import_error}`\n\n**How to fix:** This is usually due to NumPy 2.x or missing Linux GLib libraries. We have updated requirements.txt and packages.txt — please click **Manage App** -> **⋮** -> **Clear cache and deploy**!")
+                    st.error("🚨 **MediaPipe Failed to Load!**\n\nWe need to see the exact missing Linux C++ library symbol from Python.")
+                    st.code(_mp_import_error, language="text")
+                    st.info("💡 **Next Step:** Please take a screenshot of this error box or copy the text above so we can add the exact missing package to `packages.txt`!")
                     return
 
                 context = webrtc_streamer(

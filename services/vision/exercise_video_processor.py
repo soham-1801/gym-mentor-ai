@@ -1,17 +1,18 @@
 import cv2
 import mediapipe as mp
+import traceback
 _mp_import_error = ""
 try:
     import mediapipe.python.solutions as mp_solutions
 except Exception as e1:
-    _mp_import_error = f"mediapipe.python.solutions failed: {e1}"
+    _mp_import_error = f"mediapipe.python.solutions failed: {e1} | {traceback.format_exc()}"
     try:
         import mediapipe.solutions as mp_solutions
     except Exception as e2:
-        _mp_import_error += f" | mediapipe.solutions failed: {e2}"
+        _mp_import_error += f"\n | mediapipe.solutions failed: {e2} | {traceback.format_exc()}"
         mp_solutions = getattr(mp, "solutions", None)
         if mp_solutions is None:
-            _mp_import_error += f" | getattr(mp, 'solutions') is None"
+            _mp_import_error += f"\n | getattr(mp, 'solutions') is None"
 
 import numpy as np
 import logging
