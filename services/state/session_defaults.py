@@ -38,7 +38,7 @@ def initial_session_defaults():
         "voice_enabled": True,
         "voice_volume": 1.0,
         "voice_gender": "Female",
-        "voice_engine": "pyttsx3 / gTTS",
+        "voice_engine": "Web Speech API",
         "greeting_played": False,
         "last_rep_count": 0,
         "browser_speech": None,

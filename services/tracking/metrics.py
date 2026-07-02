@@ -56,7 +56,7 @@ def sync_metrics_update(context):
     processor.voice_enabled = st.session_state.get("voice_enabled", True)
     processor.voice_volume = st.session_state.get("voice_volume", 1.0)
     processor.voice_gender = st.session_state.get("voice_gender", "Female")
-    processor.voice_engine = st.session_state.get("voice_engine", "pyttsx3 / gTTS")
+    processor.voice_engine = st.session_state.get("voice_engine", "Web Speech API")
     processor.voice_event_bus = st.session_state.get("voice_event_bus")
     
     # 2. Pull metrics from the video processor (processing thread -> main thread)
