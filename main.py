@@ -952,15 +952,32 @@ def main():
                                     ]
                                 },
                                 {
-                                    "urls": [
-                                        "turn:openrelay.metered.ca:80?transport=udp",
-                                        "turn:openrelay.metered.ca:80?transport=tcp",
-                                        "turn:openrelay.metered.ca:443?transport=udp",
-                                        "turn:openrelay.metered.ca:443?transport=tcp",
-                                        "turn:openrelay.metered.ca:3478?transport=udp",
-                                        "turn:openrelay.metered.ca:3478?transport=tcp",
-                                        "turns:openrelay.metered.ca:443?transport=tcp"
-                                    ],
+                                    "urls": "turn:openrelay.metered.ca:443?transport=tcp",
+                                    "username": "openrelayproject",
+                                    "credential": "openrelayproject"
+                                },
+                                {
+                                    "urls": "turns:openrelay.metered.ca:443?transport=tcp",
+                                    "username": "openrelayproject",
+                                    "credential": "openrelayproject"
+                                },
+                                {
+                                    "urls": "turn:openrelay.metered.ca:80?transport=tcp",
+                                    "username": "openrelayproject",
+                                    "credential": "openrelayproject"
+                                },
+                                {
+                                    "urls": "turn:openrelay.metered.ca:3478?transport=udp",
+                                    "username": "openrelayproject",
+                                    "credential": "openrelayproject"
+                                },
+                                {
+                                    "urls": "turn:openrelay.metered.ca:80?transport=udp",
+                                    "username": "openrelayproject",
+                                    "credential": "openrelayproject"
+                                },
+                                {
+                                    "urls": "turn:openrelay.metered.ca:443?transport=udp",
                                     "username": "openrelayproject",
                                     "credential": "openrelayproject"
                                 }
