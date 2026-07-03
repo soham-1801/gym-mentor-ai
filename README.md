@@ -1,3 +1,13 @@
+---
+title: Gym Mentor AI
+emoji: 🏋️‍♂️
+colorFrom: red
+colorTo: blue
+sdk: docker
+pinned: false
+app_port: 7860
+---
+
 # 🏋️‍♂️ GymMentor AI — Real-Time AI Gym Trainer & Form Coach
 
 <div align="center">
