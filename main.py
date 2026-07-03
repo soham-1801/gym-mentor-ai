@@ -936,13 +936,13 @@ def main():
                     rtc_configuration={"iceServers": [{"urls": ["stun:stun.l.google.com:19302"]}]},
                     media_stream_constraints={
                         "video": {
-                            "width": {"ideal": 480},
-                            "height": {"ideal": 360},
-                            "frameRate": {"ideal": 15}
+                            "width": {"ideal": 640},
+                            "height": {"ideal": 480},
+                            "frameRate": {"ideal": 30}
                         },
                         "audio": False
                     },
-                    async_processing=False
+                    async_processing=True
                 )
 
                 sync_metrics_update(context)
