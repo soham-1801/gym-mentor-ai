@@ -931,40 +931,52 @@ def main():
                     return
 
                 is_cloud = ("/mount/src" in __file__ or "/home/adminuser" in __file__ or "/app" in __file__ or bool(os.environ.get("SPACE_ID")))
-                context = webrtc_streamer(
-                    key="exercise-analysis",
-                    mode=WebRtcMode.SENDRECV,
-                    video_processor_factory=VideoProcessorClass,
-                    rtc_configuration={
-                        "iceServers": [
-                            {"urls": ["stun:stun.l.google.com:19302", "stun:stun1.l.google.com:19302", "stun:stun2.l.google.com:19302", "stun:stun3.l.google.com:19302"]},
-                            {"urls": ["stun:stun.services.mozilla.com"]},
-                            {"urls": ["stun:global.stun.twilio.com:3478"]},
-                            {"urls": ["stun:stun.cloudflare.com:3478"]},
-                            {
-                                "urls": [
-                                    "turn:openrelay.metered.ca:80",
-                                    "turn:openrelay.metered.ca:443",
-                                    "turn:openrelay.metered.ca:3478",
-                                    "turns:openrelay.metered.ca:443"
-                                ],
-                                "username": "openrelayproject",
-                                "credential": "openrelayproject"
-                            }
-                        ]
-                    },
-                    media_stream_constraints={
-                        "video": {
-                            "width": {"ideal": 640},
-                            "height": {"ideal": 480},
-                            "frameRate": {"ideal": 20}
+                try:
+                    context = webrtc_streamer(
+                        key="exercise-analysis",
+                        mode=WebRtcMode.SENDRECV,
+                        video_processor_factory=VideoProcessorClass,
+                        rtc_configuration={
+                            "iceServers": [
+                                {"urls": ["stun:stun.l.google.com:19302", "stun:stun1.l.google.com:19302", "stun:stun2.l.google.com:19302", "stun:stun3.l.google.com:19302"]},
+                                {"urls": ["stun:stun.services.mozilla.com"]},
+                                {"urls": ["stun:global.stun.twilio.com:3478"]},
+                                {"urls": ["stun:stun.cloudflare.com:3478"]},
+                                {
+                                    "urls": [
+                                        "turn:openrelay.metered.ca:80",
+                                        "turn:openrelay.metered.ca:443",
+                                        "turn:openrelay.metered.ca:3478",
+                                        "turns:openrelay.metered.ca:443"
+                                    ],
+                                    "username": "openrelayproject",
+                                    "credential": "openrelayproject"
+                                }
+                            ]
                         },
-                        "audio": False
-                    },
-                    async_processing=True
-                )
+                        media_stream_constraints={
+                            "video": {
+                                "width": {"ideal": 640},
+                                "height": {"ideal": 480},
+                                "frameRate": {"ideal": 20}
+                            },
+                            "audio": False
+                        },
+                        async_processing=True
+                    )
 
-                sync_metrics_update(context)
+                    if context and hasattr(context, "state") and context.state:
+                        if getattr(context.state, "playing", False):
+                            st.success("🎥 **કેમેરો લાઈવ ચાલુ છે! (0-Second Delay Super-Fast Mode)**")
+                        elif getattr(context.state, "signalling", False):
+                            st.warning("⏳ **કેમેરો કનેક્ટ થઈ રહ્યો છે... (Connecting...)** — જો ૧૦ સેકન્ડથી વધુ વાર લાગે તો Hugging Face નું ફાયરવોલ નેટવર્કને બ્લોક કરે છે!")
+                        else:
+                            st.info("💡 **કેમેરો બંધ છે.** વિડીયો બોક્સમાં નીચે ડાબી બાજુ ગુલાબી રંગનું **`START`** બટન દબાવો અને બ્રાઉઝરમાં ઉપરથી **`Allow`** આપો!")
+
+                    sync_metrics_update(context)
+                except Exception as e:
+                    st.error(f"🚨 **કેમેરો ઓપન કરવામાં એરર આવી (WebRTC Exception):**\n\n**Error Details:** `{e}`")
+                    st.exception(e)
 
                 if st.session_state.get("coach_feedback"):
                     st.markdown("")
