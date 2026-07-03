@@ -260,16 +260,26 @@ class VideoProcessorClass(VideoProcessorBase):
         self._maybe_switch_detector()
 
         self.frame_counter += 1
-        # Process pose estimation on 480px downscaled image for super-fast, stutter-free 30 FPS performance
-        img_rgb = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
-        scale_w = 480
-        if w > scale_w:
-            scale_h = int(h * (scale_w / w))
-            img_small = cv2.resize(img_rgb, (scale_w, scale_h), interpolation=cv2.INTER_LINEAR)
-            results = self.pose.process(img_small)
+        import platform
+        is_cloud = (platform.system() == "Linux" or "/mount/src" in __file__ or "/home/adminuser" in __file__)
+        if is_cloud:
+            scale_w = 240
+            should_process_ai = (self.frame_counter % 2 != 0 or self.last_results is None)
         else:
-            results = self.pose.process(img_rgb)
-        self.last_results = results
+            scale_w = 480
+            should_process_ai = True
+
+        if should_process_ai:
+            img_rgb = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+            if w > scale_w:
+                scale_h = int(h * (scale_w / w))
+                img_small = cv2.resize(img_rgb, (scale_w, scale_h), interpolation=cv2.INTER_LINEAR)
+                results = self.pose.process(img_small)
+            else:
+                results = self.pose.process(img_rgb)
+            self.last_results = results
+        else:
+            results = self.last_results
 
         if results.pose_landmarks:
             # Draw skeleton on video
@@ -282,7 +292,7 @@ class VideoProcessorClass(VideoProcessorBase):
             landmarks = results.pose_landmarks.landmark
 
             try:
-                if self._detector:
+                if self._detector and should_process_ai:
                     result = self._detector.process(landmarks)
                     self._sync_from_detector(result)
                     self.form_feedback = self._get_form_feedback(result)
