@@ -24,7 +24,10 @@ from services.coaching.voice_pipeline import VoicePipeline, autoplay_audio
 from services.coaching.event_bus import VoiceEventBus
 from services.tracking.progress_analytics import calculate_progress_stats, get_achievements, get_ai_insights
 import logging
+from services.webrtc_patch import patch_webrtc_asyncio
+
 logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(levelname)s] %(message)s")
+patch_webrtc_asyncio()
 
 def clean_html(html_content: str) -> str:
     """Helper to strip all leading/trailing whitespace from each line to prevent Streamlit from showing raw tags as code blocks."""
@@ -938,10 +941,20 @@ def main():
                         video_processor_factory=VideoProcessorClass,
                         rtc_configuration={
                             "iceServers": [
-                                {"urls": ["stun:stun.l.google.com:19302", "stun:stun1.l.google.com:19302", "stun:stun2.l.google.com:19302", "stun:stun3.l.google.com:19302"]},
-                                {"urls": ["stun:stun.services.mozilla.com"]},
-                                {"urls": ["stun:global.stun.twilio.com:3478"]},
-                                {"urls": ["stun:stun.cloudflare.com:3478"]},
+                                {
+                                    "urls": [
+                                        "stun:stun.l.google.com:19302",
+                                        "stun:stun1.l.google.com:19302",
+                                        "stun:stun2.l.google.com:19302",
+                                        "stun:stun3.l.google.com:19302",
+                                        "stun:stun4.l.google.com:19302",
+                                    ]
+                                },
+                                {
+                                    "urls": [
+                                        "stun:stun.cloudflare.com:3478",
+                                    ]
+                                },
                                 {
                                     "urls": [
                                         "turn:openrelay.metered.ca:80",

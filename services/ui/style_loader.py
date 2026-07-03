@@ -33,6 +33,10 @@ def inject_local_font(font_path, font_name):
     """, unsafe_allow_html=True)
 
 def inject_webrtc_styles():
+    if st.session_state.get("_webrtc_styles_injected"):
+        return
+    st.session_state._webrtc_styles_injected = True
+
     font_path = os.path.join(os.getcwd(), "static", "AdobeClean.otf")
     
     if not os.path.exists(font_path):
@@ -41,8 +45,7 @@ def inject_webrtc_styles():
     with open(font_path, "rb") as font_file:
         encoded_font = base64.b64encode(font_file.read()).decode()
 
-    components.html(
-        f"""
+    html_payload = f"""
         <script>
         (function patchWebRTCStyles() {{
             function injectIntoIframe(iframe) {{
@@ -91,6 +94,14 @@ def inject_webrtc_styles():
             findAndPatch();
         }})();
         </script>
-        """,
-        height=0,
-    )
+        """
+
+    iframe_func = getattr(components, "iframe", None) or getattr(st, "iframe", None)
+    if iframe_func:
+        try:
+            iframe_func(html_payload, height=0)
+            return
+        except (TypeError, Exception):
+            pass
+
+    components.html(html_payload, height=0)
