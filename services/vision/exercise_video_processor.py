@@ -262,8 +262,8 @@ class VideoProcessorClass(VideoProcessorBase):
         self._maybe_switch_detector()
 
         self.frame_counter += 1
-        is_weak_cloud = ("/mount/src" in __file__ or "/home/adminuser" in __file__) and not os.environ.get("SPACE_ID")
-        if is_weak_cloud:
+        is_cloud = ("/mount/src" in __file__ or "/home/adminuser" in __file__ or "/app" in __file__ or bool(os.environ.get("SPACE_ID")))
+        if is_cloud:
             scale_w = 240
             should_process_ai = (self.frame_counter % 2 != 0 or self.last_results is None)
         else:

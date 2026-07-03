@@ -930,7 +930,7 @@ def main():
                     st.error(f"🚨 **MediaPipe Failed to Load!**\n\n**Exact Error:** `{_mp_import_error}`\n\n**How to fix:** This is usually due to NumPy 2.x or missing Linux GLib libraries. We have updated requirements.txt and packages.txt — please click **Manage App** -> **⋮** -> **Clear cache and deploy**!")
                     return
 
-                is_weak_cloud = ("/mount/src" in __file__ or "/home/adminuser" in __file__) and not os.environ.get("SPACE_ID")
+                is_cloud = ("/mount/src" in __file__ or "/home/adminuser" in __file__ or "/app" in __file__ or bool(os.environ.get("SPACE_ID")))
                 context = webrtc_streamer(
                     key="exercise-analysis",
                     mode=WebRtcMode.SENDRECV,
@@ -957,7 +957,7 @@ def main():
                         "video": {
                             "width": {"ideal": 640},
                             "height": {"ideal": 480},
-                            "frameRate": {"ideal": 20 if is_weak_cloud else 30}
+                            "frameRate": {"ideal": 15 if is_cloud else 30}
                         },
                         "audio": False
                     },
