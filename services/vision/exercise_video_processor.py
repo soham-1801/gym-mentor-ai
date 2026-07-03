@@ -14,6 +14,8 @@ except Exception as e1:
             _mp_import_error += f" | getattr(mp, 'solutions') is None"
 
 import numpy as np
+import os
+import platform
 import logging
 from typing import Optional
 from streamlit_webrtc import VideoProcessorBase
@@ -260,7 +262,6 @@ class VideoProcessorClass(VideoProcessorBase):
         self._maybe_switch_detector()
 
         self.frame_counter += 1
-        import platform, os
         is_weak_cloud = ("/mount/src" in __file__ or "/home/adminuser" in __file__) and not os.environ.get("SPACE_ID")
         if is_weak_cloud:
             scale_w = 240

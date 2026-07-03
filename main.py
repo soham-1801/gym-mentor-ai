@@ -1,6 +1,7 @@
 import streamlit as st
 import textwrap
 import os
+import platform
 import time
 import pandas as pd
 from services.auth.login_wall import render_login_wall
@@ -929,7 +930,6 @@ def main():
                     st.error(f"🚨 **MediaPipe Failed to Load!**\n\n**Exact Error:** `{_mp_import_error}`\n\n**How to fix:** This is usually due to NumPy 2.x or missing Linux GLib libraries. We have updated requirements.txt and packages.txt — please click **Manage App** -> **⋮** -> **Clear cache and deploy**!")
                     return
 
-                import platform, os
                 is_weak_cloud = ("/mount/src" in __file__ or "/home/adminuser" in __file__) and not os.environ.get("SPACE_ID")
                 context = webrtc_streamer(
                     key="exercise-analysis",
