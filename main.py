@@ -948,19 +948,18 @@ def main():
                                         "stun:stun2.l.google.com:19302",
                                         "stun:stun3.l.google.com:19302",
                                         "stun:stun4.l.google.com:19302",
-                                    ]
-                                },
-                                {
-                                    "urls": [
                                         "stun:stun.cloudflare.com:3478",
                                     ]
                                 },
                                 {
                                     "urls": [
-                                        "turn:openrelay.metered.ca:80",
-                                        "turn:openrelay.metered.ca:443",
-                                        "turn:openrelay.metered.ca:3478",
-                                        "turns:openrelay.metered.ca:443"
+                                        "turn:openrelay.metered.ca:80?transport=udp",
+                                        "turn:openrelay.metered.ca:80?transport=tcp",
+                                        "turn:openrelay.metered.ca:443?transport=udp",
+                                        "turn:openrelay.metered.ca:443?transport=tcp",
+                                        "turn:openrelay.metered.ca:3478?transport=udp",
+                                        "turn:openrelay.metered.ca:3478?transport=tcp",
+                                        "turns:openrelay.metered.ca:443?transport=tcp"
                                     ],
                                     "username": "openrelayproject",
                                     "credential": "openrelayproject"
@@ -982,7 +981,7 @@ def main():
                         if getattr(context.state, "playing", False):
                             st.success("🎥 **કેમેરો લાઈવ ચાલુ છે! (0-Second Delay Super-Fast Mode)**")
                         elif getattr(context.state, "signalling", False):
-                            st.warning("⏳ **કેમેરો કનેક્ટ થઈ રહ્યો છે... (Connecting...)** — જો ૧૦ સેકન્ડથી વધુ વાર લાગે તો Hugging Face નું ફાયરવોલ નેટવર્કને બ્લોક કરે છે!")
+                            st.warning("⏳ **કેમેરો કનેક્ટ થઈ રહ્યો છે... (Connecting...)** — જો ૧૦ સેકન્ડથી વધુ વાર લાગે, તો કૃપા કરીને બ્રાઉઝર પરવાનગી (Camera Permission) ચકાસો અથવા પેજ રિફ્રેશ કરો!")
                         else:
                             st.info("💡 **કેમેરો બંધ છે.** વિડીયો બોક્સમાં નીચે ડાબી બાજુ ગુલાબી રંગનું **`START`** બટન દબાવો અને બ્રાઉઝરમાં ઉપરથી **`Allow`** આપો!")
 
