@@ -935,7 +935,16 @@ def main():
                     key="exercise-analysis",
                     mode=WebRtcMode.SENDRECV,
                     video_processor_factory=VideoProcessorClass,
-                    rtc_configuration={"iceServers": [{"urls": ["stun:stun.l.google.com:19302"]}]},
+                    rtc_configuration={
+                        "iceServers": [
+                            {"urls": ["stun:stun.l.google.com:19302", "stun:stun1.l.google.com:19302", "stun:stun2.l.google.com:19302", "stun:stun3.l.google.com:19302"]},
+                            {"urls": ["stun:stun.services.mozilla.com"]},
+                            {"urls": ["stun:global.stun.twilio.com:3478"]},
+                            {"urls": ["stun:stun.cloudflare.com:3478"]},
+                            {"urls": ["stun:openrelay.metered.ca:80"]},
+                            {"urls": ["stun:openrelay.metered.ca:443"]}
+                        ]
+                    },
                     media_stream_constraints={
                         "video": {
                             "width": {"ideal": 640},
