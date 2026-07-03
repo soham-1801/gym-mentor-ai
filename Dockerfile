@@ -22,8 +22,8 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Copy application source code
 COPY . .
 
-# Expose port for Hugging Face Spaces (default 8501 for Streamlit)
-EXPOSE 8501
+# Expose port for Hugging Face Spaces (required default is 7860)
+EXPOSE 7860
 
-# Launch Streamlit server
-CMD ["streamlit", "run", "main.py", "--server.port=8501", "--server.address=0.0.0.0", "--server.headless=true", "--server.enableCORS=false", "--server.enableXsrfProtection=false"]
+# Launch Streamlit server on port 7860
+CMD ["streamlit", "run", "main.py", "--server.port=7860", "--server.address=0.0.0.0", "--server.headless=true", "--server.enableCORS=false", "--server.enableXsrfProtection=false"]
