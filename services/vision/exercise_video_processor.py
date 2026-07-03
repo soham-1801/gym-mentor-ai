@@ -262,13 +262,9 @@ class VideoProcessorClass(VideoProcessorBase):
         self._maybe_switch_detector()
 
         self.frame_counter += 1
-        is_cloud = ("/mount/src" in __file__ or "/home/adminuser" in __file__ or "/app" in __file__ or bool(os.environ.get("SPACE_ID")))
-        if is_cloud:
-            scale_w = 240
-            should_process_ai = (self.frame_counter % 2 != 0 or self.last_results is None)
-        else:
-            scale_w = 480
-            should_process_ai = True
+        # Universal speed optimization for both Local and Cloud: 0-second delay without lag
+        scale_w = 280
+        should_process_ai = (self.frame_counter % 2 != 0 or self.last_results is None)
 
         if should_process_ai:
             img_rgb = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
