@@ -2,7 +2,7 @@ streamlit>=1.40.0
 streamlit-webrtc>=0.63.0
 mediapipe>=0.10.14
 opencv-python-headless>=4.10.0
-numpy==1.26.4
+numpy>=1.26.0,<3.0.0
 protobuf>=3.20,<5.0.0
 pandas>=2.2.0
 groq>=1.0.0
