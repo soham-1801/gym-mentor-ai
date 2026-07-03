@@ -941,8 +941,16 @@ def main():
                             {"urls": ["stun:stun.services.mozilla.com"]},
                             {"urls": ["stun:global.stun.twilio.com:3478"]},
                             {"urls": ["stun:stun.cloudflare.com:3478"]},
-                            {"urls": ["stun:openrelay.metered.ca:80"]},
-                            {"urls": ["stun:openrelay.metered.ca:443"]}
+                            {
+                                "urls": [
+                                    "turn:openrelay.metered.ca:80",
+                                    "turn:openrelay.metered.ca:443",
+                                    "turn:openrelay.metered.ca:3478",
+                                    "turns:openrelay.metered.ca:443"
+                                ],
+                                "username": "openrelayproject",
+                                "credential": "openrelayproject"
+                            }
                         ]
                     },
                     media_stream_constraints={
