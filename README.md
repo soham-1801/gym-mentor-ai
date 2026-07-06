@@ -25,6 +25,7 @@
 ## 📑 Table of Contents
 - [🌟 Executive Summary & Overview](#-executive-summary--overview)
 - [✨ Core Capabilities & Feature Highlights](#-core-capabilities--feature-highlights)
+- [🖥️ Interactive Application Feature Gallery](#-interactive-application-feature-gallery)
 - [🎯 Visual Exercise Showcase](#-visual-exercise-showcase)
 - [🧠 Biomechanical Evaluation Table](#-biomechanical-evaluation-table)
 - [🔄 AI & Computer Vision Processing Pipeline](#-ai--computer-vision-processing-pipeline)
@@ -68,6 +69,26 @@ By integrating **Google MediaPipe's 3D Pose Estimation** with custom **vector tr
 ### 🎨 5. Glassmorphism UI & High-Performance WebRTC Streaming
 - **Sleek Dark Mode Aesthetics**: Engineered with curated HSL color palettes, custom typography (`AdobeClean`), and responsive CSS glassmorphic cards.
 - **Local WebRTC Video Pipeline**: High-speed local webcam capture and canvas rendering without sending any video data to external servers.
+
+---
+
+## 🖥️ Interactive Application Feature Gallery
+
+Explore the rich glassmorphic interface and professional features of **GymMentor AI**:
+
+<div align="center">
+
+| 🔐 1. Personalized Goal & Profile Setup | 📋 2. Smart Workout Program Scheduler |
+| :---: | :---: |
+| <img src="static/features/login_dashboard.png" width="440" alt="Login & Profile Dashboard"/> | <img src="static/features/workout_programs.png" width="440" alt="Workout Programs Tab"/> |
+| **Custom Fitness Goals, Experience Levels & Daily Calorie Targets** | **Multi-Week Structured Training Plans (Hypertrophy, Strength & Endurance)** |
+
+| 🏋️‍♂️ 3. Custom Single Exercise Selector | 🤖 4. Live 3D Vision AI Trainer Studio |
+| :---: | :---: |
+| <img src="static/features/exercise_selection.png" width="440" alt="Exercise Selection Tab"/> | <img src="static/features/live_ai_trainer.png" width="440" alt="Live AI Trainer Studio"/> |
+| **Interactive Catalog with Configurable Target Reps, Sets & Rest Timers** | **Real-Time Landmark Tracking, Audio Coaching, MET Calories & Form Scores** |
+
+</div>
 
 ---
 

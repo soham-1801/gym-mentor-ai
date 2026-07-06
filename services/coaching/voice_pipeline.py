@@ -364,6 +364,5 @@ def autoplay_audio(audio_bytes):
     st.audio(
         audio_bytes,
         format=mime_type,
-        autoplay=True,
-        key=f"audio_{audio_hash}"
+        autoplay=True
     )
