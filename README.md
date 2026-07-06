@@ -57,7 +57,6 @@ gym-mentor-ai/
 │   ├── pushups.py
 │   ├── shoulder_press.py
 │   └── squat.py
-├── ml_models/             # Machine learning models and weights
 ├── services/              # Application services & background pipelines
 │   ├── auth/              # Authentication & login wall
 │   ├── coaching/          # LLM coaching, event bus, TTS & voice pipeline
