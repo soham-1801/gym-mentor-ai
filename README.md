@@ -1,14 +1,4 @@
----
-title: Gym Mentor AI
-emoji: 🏋️‍♂️
-colorFrom: red
-colorTo: blue
-sdk: docker
-pinned: false
-app_port: 7860
----
-
-# 🏋️‍♂️ GymMentor AI — Next-Generation Real-Time AI Fitness Coach & Biomechanical Form Analyzer
+# 🏋️‍♂️ GymMentor AI — Real-Time AI Fitness Coach & Biomechanical Form Analyzer
 
 <div align="center">
 
@@ -24,9 +14,9 @@ app_port: 7860
 
 <br/>
 
-**Transform your webcam into an elite personal trainer powered by 3D Computer Vision, Biomechanical Vector Mathematics, and Llama 3 Voice Coaching.**
+**Transform your computer webcam into an elite personal trainer powered by 3D Computer Vision, Biomechanical Vector Mathematics, and Llama 3 Voice Coaching.**
 
-[Explore Live Demo](#-getting-started) • [Report Bug](https://github.com/soham-1801/gym-mentor-ai/issues) • [Request Feature](https://github.com/soham-1801/gym-mentor-ai/issues)
+[Get Started Locally](#-step-by-step-installation--setup) • [Report Bug](https://github.com/soham-1801/gym-mentor-ai/issues) • [Request Feature](https://github.com/soham-1801/gym-mentor-ai/issues)
 
 </div>
 
@@ -41,7 +31,6 @@ app_port: 7860
 - [🏗️ System Architecture & Project Tree](#-system-architecture--project-tree)
 - [🛠️ Technology Stack](#-technology-stack)
 - [⚙️ Step-by-Step Installation & Setup](#-step-by-step-installation--setup)
-- [☁️ Cloud Deployment Guide](#-cloud-deployment-guide)
 - [🛡️ Best Practices & Form Guidelines](#-best-practices--form-guidelines)
 - [🤝 Contributing & License](#-contributing--license)
 
@@ -49,23 +38,23 @@ app_port: 7860
 
 ## 🌟 Executive Summary & Overview
 
-**GymMentor AI** is an enterprise-grade, real-time AI workout assistant designed to democratize professional personal fitness training. Traditional fitness apps rely on manual logging and passive video tutorials, leaving athletes vulnerable to incorrect posture, suboptimal muscle engagement, and acute gym injuries.
+**GymMentor AI** is an enterprise-grade, real-time AI workout assistant designed to democratize professional personal fitness training right on your computer. Traditional fitness apps rely on manual logging and passive video tutorials, leaving athletes vulnerable to incorrect posture, suboptimal muscle engagement, and acute gym injuries.
 
-By integrating **Google MediaPipe's 3D Pose Estimation** with custom **vector trigonometry algorithms** and **Groq's ultra-fast Llama 3 LLM**, GymMentor AI performs real-time biomechanical analysis directly in your browser at 30+ frames per second. It tracks joint articulation, computes bilateral muscle symmetry, logs reps and sets, estimates MET-based calorie burn, and delivers instant, human-like verbal coaching cues to fix your form on the fly.
+By integrating **Google MediaPipe's 3D Pose Estimation** with custom **vector trigonometry algorithms** and **Groq's ultra-fast Llama 3 LLM**, GymMentor AI performs real-time biomechanical analysis directly via your local webcam at 30+ frames per second. It tracks joint articulation, computes bilateral muscle symmetry, logs reps and sets, estimates MET-based calorie burn, and delivers instant, human-like verbal coaching cues to fix your form on the fly.
 
 ---
 
 ## ✨ Core Capabilities & Feature Highlights
 
 ### 🦾 1. Real-Time 3D Biomechanical Tracking
-- **33 Landmark Spatial Mesh**: Continuously tracks key spatial coordinates (shoulders, elbows, wrists, hips, knees, ankles) in 3D space.
+- **33 Landmark Spatial Mesh**: Continuously tracks key spatial coordinates (shoulders, elbows, wrists, hips, knees, ankles) in 3D space in real time.
 - **Trigonometric Joint Angle Calculation**: Uses vector dot product mathematics to calculate precise internal joint angles with sub-degree accuracy.
 - **Dynamic Repetition State Machine**: Employs robust state-transition logic (`IDLE` ➔ `DOWN` ➔ `UP` ➔ `REP_COMPLETE`) to eliminate false positive rep counts from camera jitter.
 
 ### 🗣️ 2. Live AI Voice Coach (Groq Llama 3 + Web Speech API)
 - **Zero-Latency Verbal Feedback**: Instantly analyzes workout flaws and triggers personalized audio coaching cues (*"Squat lower to break parallel!"*, *"Keep your back straight!"*, *"Excellent rep speed!"*).
 - **Post-Workout LLM Summary**: Generates comprehensive AI coaching summaries after each session, highlighting best form scores, weakest joint angles, and personalized recovery tips.
-- **Audio Hash Caching**: Smart audio caching prevents playback loops or browser stuttering during intensive WebRTC video rendering.
+- **Audio Hash Caching**: Smart audio caching prevents playback loops or browser stuttering during intensive video rendering.
 
 ### ⚖️ 3. Bi-Lateral Symmetry & Injury Prevention
 - **Imbalance Warning System**: Continuously monitors left-to-right body symmetry during exercises like Shoulder Presses and Lunges.
@@ -76,9 +65,9 @@ By integrating **Google MediaPipe's 3D Pose Estimation** with custom **vector tr
 - **Form Quality Scoring**: Assigns a real-time percentage grade (0–100%) to every single repetition based on depth, alignment, and tempo.
 - **Interactive Progress Dashboard**: Visualizes workout history, total volume lifted, streak calendars, and personal records.
 
-### 🎨 5. Glassmorphism UI & Cloud WebRTC Patching
+### 🎨 5. Glassmorphism UI & High-Performance WebRTC Streaming
 - **Sleek Dark Mode Aesthetics**: Engineered with curated HSL color palettes, custom typography (`AdobeClean`), and responsive CSS glassmorphic cards.
-- **Iframe CSS Injection**: Proprietary JavaScript WebRTC patchers inject custom styling into cross-domain Streamlit WebRTC video containers.
+- **Local WebRTC Video Pipeline**: High-speed local webcam capture and canvas rendering without sending any video data to external servers.
 
 ---
 
@@ -116,12 +105,12 @@ GymMentor AI enforces strict biomechanical standards across all supported moveme
 
 ## 🔄 AI & Computer Vision Processing Pipeline
 
-The system operates on a high-throughput, asynchronous real-time processing loop:
+The system operates on a high-throughput, asynchronous real-time processing loop running directly on your local system:
 
 ```text
 +-----------------------+     +------------------------+     +-------------------------+
 |   Webcam Video Stream | --> |   Streamlit WebRTC     | --> |  Google MediaPipe Pose  |
-|  (30+ FPS WebRTC Feed)|     |   (STUN/TURN Servers)  |     |  (33 3D Spatial Nodes)  |
+|  (30+ FPS Local Feed) |     |  (Local Video Canvas)  |     |  (33 3D Spatial Nodes)  |
 +-----------------------+     +------------------------+     +-------------------------+
                                                                           |
                                                                           v
@@ -137,7 +126,7 @@ The system operates on a high-throughput, asynchronous real-time processing loop
 +-----------------------+     +------------------------+
 ```
 
-1. **Video Capture**: Frames are captured via browser WebRTC and streamed to the server without storing video on disk.
+1. **Video Capture**: Frames are captured via browser WebRTC and processed locally without storing video on disk.
 2. **Pose Estimation**: Google MediaPipe extracts X, Y, and Z coordinates for 33 anatomical landmarks.
 3. **Vector Trigonometry**: Exercise detectors compute Euclidean vectors and interior angles between connected joint segments.
 4. **State Machine & Scoring**: Repetitions are logged when angle thresholds transition cleanly; real-time form percentage is calculated.
@@ -190,7 +179,7 @@ gym-mentor-ai/
 │   │   └── style_loader.py      # CSS loader & font face injector
 │   ├── vision/                  # Video processing & MediaPipe integration
 │   │   └── exercise_video_processor.py # WebRTC video frame analyzer
-│   └── webrtc_patch.py          # Cross-domain iframe CSS patcher
+│   └── webrtc_patch.py          # Custom iframe CSS styling patcher
 │
 ├── static/                      # Static assets, styling & demo graphics
 │   ├── AdobeClean.otf           # Typography font asset
@@ -203,12 +192,7 @@ gym-mentor-ai/
 │       └── squat.png
 │
 ├── main.py                      # Main Streamlit application entry point
-├── Dockerfile                   # Docker containerization build file
-├── render.yaml                  # Render cloud deployment blueprint
-├── requirements.txt             # Python package dependencies
-├── packages.txt                 # System OS libraries (libgl1, etc.)
-├── apt.txt                      # Debian/Ubuntu apt packages
-└── runtime.txt                  # Python runtime specification (3.11)
+└── requirements.txt             # Python package dependencies
 ```
 
 ---
@@ -279,40 +263,11 @@ Open `.streamlit/secrets.toml` in your code editor and add your API key:
 GROQ_API_KEY = "gsk_your_actual_groq_api_key_here"
 ```
 
-### 5. Launch GymMentor AI
+### 5. Launch GymMentor AI Locally
 ```bash
 streamlit run main.py
 ```
 Your default web browser will automatically open at `http://localhost:8501`.
-
----
-
-## ☁️ Cloud Deployment Guide
-
-GymMentor AI is fully optimized for 1-click cloud deployment on platforms like **Streamlit Community Cloud**, **Render**, **HuggingFace Spaces**, and **Docker**.
-
-### Important OS Package Requirements (`packages.txt`)
-Because computer vision libraries like OpenCV require underlying system graphics libraries, ensure your deployment platform reads `packages.txt` or `apt.txt` containing:
-```text
-libgl1
-libegl1
-libgles2
-ocl-icd-libopencl1
-ocl-icd-opencl-dev
-libglib2.0-dev
-libgomp1
-libsm6
-libxext6
-libxrender1
-libusb-1.0-0
-```
-
-### Streamlit Community Cloud Deployment
-1. Push your code to a public GitHub repository.
-2. Go to [share.streamlit.io](https://share.streamlit.io/) and click **"Deploy an app"**.
-3. Select your repository (`gym-mentor-ai`), branch (`main`), and file path (`main.py`).
-4. In **Advanced Settings ➔ Secrets**, paste your `GROQ_API_KEY`.
-5. Click **Deploy**! The platform will automatically install OS libraries from `packages.txt` and Python packages from `requirements.txt`.
 
 ---
 
