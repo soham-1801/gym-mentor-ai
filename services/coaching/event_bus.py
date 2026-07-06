@@ -1,6 +1,5 @@
 import queue
 import logging
-import time
 
 class VoiceEventBus:
     def __init__(self):

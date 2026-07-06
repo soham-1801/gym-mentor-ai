@@ -46,12 +46,6 @@ class SquatDetector(BaseExercise):
             knee_angle = right_knee_angle
             hip_idx, knee_idx, ankle_idx, shoulder_idx = self.RIGHT_HIP, self.RIGHT_KNEE, self.RIGHT_ANKLE, self.RIGHT_SHOULDER
 
-        back_angle = self.calculate_angle(
-            self.get_point(landmarks, shoulder_idx),
-            self.get_point(landmarks, hip_idx),
-            self.get_point(landmarks, knee_idx)
-        )
-
         # Also compute forward lean angle (torso vs vertical) using normalized coords.
         # This measures how far the torso deviates from vertical: 0° = perfectly upright.
         shoulder_pt = self.get_point(landmarks, shoulder_idx)

@@ -10,7 +10,7 @@ class LLMCoach:
         fallback_messages = {
             "workout_started": f"Chalo shuru karte hain! Let's start with {exercise}. Keep your form tight!",
             "workout_completed": f"Shabash! You've completed your {exercise} session. Great effort today!",
-            "set_completed": f"Set completed! Bahut badhiya. Catch your breath for a bit.",
+            "set_completed": "Set completed! Bahut badhiya. Catch your breath for a bit.",
             "form_feedback": "Check your posture. Keep your core engaged and movements controlled!"
         }
         

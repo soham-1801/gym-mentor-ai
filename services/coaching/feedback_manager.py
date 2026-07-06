@@ -1,4 +1,3 @@
-import datetime
 import logging
 import pandas as pd
 
@@ -120,6 +119,9 @@ def generate_personalized_feedback(exercise_type, current_session_metrics, histo
     else:
         summary_parts.append(f"You maintained a steady form score of {avg_score:.1f} on {exercise_type}.")
         
+    if best_score > avg_score and total_sets > 0:
+        summary_parts.append(f"Your peak set reached a form score of {best_score:.1f} across {total_sets} sets!")
+        
     if previous_reps > 0 and total_reps > previous_reps:
         rep_pct = int(((total_reps - previous_reps) / previous_reps) * 100)
         summary_parts.append(f"You completed {rep_pct}% more reps than your previous session.")
@@ -129,11 +131,11 @@ def generate_personalized_feedback(exercise_type, current_session_metrics, histo
         if "Depth" in weakest_area:
             summary_parts.append(f"Your depth needs some focus during {exercise_type.lower()}.")
         elif "Alignment" in weakest_area or "Posture" in weakest_area:
-            summary_parts.append(f"Focus on maintaining a straighter back and proper alignment.")
+            summary_parts.append("Focus on maintaining a straighter back and proper alignment.")
         elif "Balance" in weakest_area:
-            summary_parts.append(f"Your balance needs improvement during execution.")
+            summary_parts.append("Your balance needs improvement during execution.")
         elif "Stability" in weakest_area:
-            summary_parts.append(f"Try to stabilize your elbow/shoulder joints during curls.")
+            summary_parts.append("Try to stabilize your elbow/shoulder joints during curls.")
             
     # Consistency
     if user_streaks:

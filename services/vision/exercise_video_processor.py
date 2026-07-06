@@ -11,11 +11,8 @@ except Exception as e1:
         _mp_import_error += f" | mediapipe.solutions failed: {e2}"
         mp_solutions = getattr(mp, "solutions", None)
         if mp_solutions is None:
-            _mp_import_error += f" | getattr(mp, 'solutions') is None"
+            _mp_import_error += " | getattr(mp, 'solutions') is None"
 
-import numpy as np
-import os
-import platform
 import logging
 from typing import Optional
 from streamlit_webrtc import VideoProcessorBase
@@ -132,6 +129,24 @@ class VideoProcessorClass(VideoProcessorBase):
             self.last_announced_rep = 0
             self.last_announced_form_feedback = None
             self.last_form_feedback_time = 0.0
+            # Reset joint angles & statuses when switching exercises
+            self.knee_angle = 0
+            self.back_angle = 0
+            self.depth_status = "Unknown"
+            self.elbow_angle = 0
+            self.body_alignment = "Unknown"
+            self.hip_status = "Unknown"
+            self.shoulder_status = "Unknown"
+            self.swing_status = "Unknown"
+            self.extension_status = "Unknown"
+            self.back_arch_status = "Unknown"
+            self.front_knee_angle = 0
+            self.torso_angle = 0
+            self.balance_status = "Unknown"
+            self.left_elbow_angle = 0
+            self.right_elbow_angle = 0
+            self.left_knee_angle = 0
+            self.right_knee_angle = 0
 
     def increment_rep(self):
         self.reps += 1

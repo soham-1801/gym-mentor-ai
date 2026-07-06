@@ -1,14 +1,12 @@
 import streamlit as st
-import textwrap
 import os
-import platform
 import time
 import pandas as pd
 from services.auth.login_wall import render_login_wall
 from services.state.session_defaults import initial_session_defaults
 from services.config.workout_config import EXERCISE_OPTIONS
-from services.config.workout_program import PRESET_PROGRAMS, PROGRAM_NAMES, PROGRAM_EMOJIS, PROGRAM_DESCRIPTIONS, get_program, program_summary_text
-from services.config.goal_config import GOALS, GOAL_NAMES, get_goal_config, get_recommended_rest
+from services.config.workout_program import PROGRAM_NAMES, PROGRAM_EMOJIS, PROGRAM_DESCRIPTIONS, get_program
+from services.config.goal_config import GOAL_NAMES, get_goal_config, get_recommended_rest
 from services.ui.style_loader import load_css, inject_local_font, inject_webrtc_styles
 from services.persistence.exercise_repository import init_db, update_user_profile, save_schedule, get_schedule
 from streamlit_webrtc import webrtc_streamer, WebRtcMode
@@ -122,7 +120,7 @@ def main():
             logging.info("[main.py] VoicePipeline successfully initialized.")
         except Exception as e:
             import traceback
-            logging.error(f"[main.py] Error initializing VoicePipeline:\n{traceback.format_exc()}")
+            logging.error(f"[main.py] Error initializing VoicePipeline ({e}):\n{traceback.format_exc()}")
             st.session_state.voice_pipeline = None
 
     # Trigger Greeting when application starts
@@ -250,6 +248,10 @@ def main():
             # Show summary
             sched_summary = format_schedule_summary(st.session_state.get("schedule_rows", []))
             st.caption(f"🗓️ {sched_summary}")
+            
+            today_sched = check_today_schedule(st.session_state.get("schedule_rows", []))
+            if today_sched["has_workout"]:
+                st.info(f"🔔 **Today is {today_sched['day_name']}!** Scheduled: **{today_sched['program_name']}** at **{today_sched['workout_time']}**")
 
             st.divider()
 
@@ -724,6 +726,10 @@ def main():
                                     <span style="color: #94A3B8; font-weight: 600;">Avg Form:</span>
                                     <span style="color: #10B981; font-weight: 800; font-size: 1.05rem;">{avg_score}%</span>
                                 </div>
+                                <div style="display: flex; justify-content: space-between; font-size: 0.9rem;">
+                                    <span style="color: #94A3B8; font-weight: 600;">Best Form:</span>
+                                    <span style="color: #F59E0B; font-weight: 800; font-size: 1.05rem;">{best_score}%</span>
+                                </div>
                             </div>
                         </div>
                         <div style="border-top: 1px solid rgba(255, 255, 255, 0.08); padding-top: 20px;">
@@ -810,7 +816,7 @@ def main():
                 if img_path and os.path.exists(img_path):
                     st.image(img_path, caption=f"{demo_exercise} — Correct Form", use_container_width=True)
             with demo_col2:
-                st.markdown(f"**✅ Key Form Points**")
+                st.markdown("**✅ Key Form Points**")
                 for tip in DEMO_TIPS.get(demo_exercise, []):
                     st.markdown(f"- {tip}")
                 st.markdown("")
@@ -934,6 +940,7 @@ def main():
                     return
 
                 is_cloud = ("/mount/src" in __file__ or "/home/adminuser" in __file__ or "/app" in __file__ or bool(os.environ.get("SPACE_ID")))
+                logging.debug(f"[main.py] Running in cloud environment: {is_cloud}")
                 try:
                     context = webrtc_streamer(
                         key="exercise-analysis",
