@@ -78,15 +78,25 @@ Explore the rich glassmorphic interface and professional features of **GymMentor
 
 <div align="center">
 
-| 🔐 1. Personalized Goal & Profile Setup | 📋 2. Smart Workout Program Scheduler |
+| 🚀 1. Welcome & Instant Login | 🔐 2. Personalized Goal Setup |
 | :---: | :---: |
-| <img src="static/features/login_dashboard.png" width="440" alt="Login & Profile Dashboard"/> | <img src="static/features/workout_programs.png" width="440" alt="Workout Programs Tab"/> |
-| **Custom Fitness Goals, Experience Levels & Daily Calorie Targets** | **Multi-Week Structured Training Plans (Hypertrophy, Strength & Endurance)** |
+| <img src="static/features/welcome_login.png" width="440" alt="Welcome Screen"/> | <img src="static/features/login_dashboard.png" width="440" alt="Login & Profile Dashboard"/> |
+| **Personalized AI Trainer Welcome & Quick Session Access** | **Custom Fitness Goals, Experience Levels & Daily Calorie Targets** |
 
-| 🏋️‍♂️ 3. Custom Single Exercise Selector | 🤖 4. Live 3D Vision AI Trainer Studio |
+| 📖 3. Exercise Form Guide & Tips | 📋 4. Smart Workout Program Scheduler |
+| :---: | :---: |
+| <img src="static/features/form_guide.png" width="440" alt="Exercise Form Guide"/> | <img src="static/features/workout_programs.png" width="440" alt="Workout Programs Tab"/> |
+| **Visual Biomechanical Guide, Key Form Points & Breathing Technique** | **Multi-Week Structured Training Plans (Hypertrophy, Strength & Endurance)** |
+
+| 📹 5. Live Webcam Video Analysis | 🏆 6. AI Post-Workout Summary |
+| :---: | :---: |
+| <img src="static/features/live_analysis.png" width="440" alt="Live Video Analysis"/> | <img src="static/features/workout_summary.png" width="440" alt="AI Post-Workout Summary"/> |
+| **Real-Time Joint Angle Tracking, Rep Counting & Live AI Form Score** | **Performance Rating, Strongest/Weakest Joint Metrics & Actionable Advice** |
+
+| 🏋️‍♂️ 7. Single Exercise Selector | 🤖 8. 3D Vision AI Trainer Studio |
 | :---: | :---: |
 | <img src="static/features/exercise_selection.png" width="440" alt="Exercise Selection Tab"/> | <img src="static/features/live_ai_trainer.png" width="440" alt="Live AI Trainer Studio"/> |
-| **Interactive Catalog with Configurable Target Reps, Sets & Rest Timers** | **Real-Time Landmark Tracking, Audio Coaching, MET Calories & Form Scores** |
+| **Interactive Catalog with Configurable Target Reps, Sets & Rest Timers** | **Real-Time Landmark Tracking, Audio Coaching & MET Calories** |
 
 </div>
 

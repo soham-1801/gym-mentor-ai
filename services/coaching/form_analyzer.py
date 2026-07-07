@@ -23,20 +23,20 @@ def calculate_form_score(exercise_type: str, metrics: dict) -> tuple:
             if depth_status == "GOOD DEPTH" or knee_angle <= 100:
                 depth_score = 100
             elif depth_status == "Shallow Squat" or (100 < knee_angle <= 130):
-                depth_score = 75
+                depth_score = max(55, 100 - int((knee_angle - 95) * 1.5))
             else:  # TOO HIGH
-                depth_score = max(45, 100 - int((knee_angle - 100) * 1.5))
+                depth_score = max(35, 100 - int((knee_angle - 95) * 2.0))
                 
         # 2. Torso Alignment Component
         back_angle = metrics.get("back_angle", 0)  # Leaning angle vs vertical
-        if back_angle <= 20:
+        if back_angle <= 18:
             posture_score = 100
-        elif back_angle <= 30:
-            posture_score = 85
+        elif back_angle <= 28:
+            posture_score = 80
         elif back_angle <= 35:
-            posture_score = 70
+            posture_score = 60
         else:
-            posture_score = max(40, 100 - int((back_angle - 20) * 2.0))
+            posture_score = max(30, 100 - int((back_angle - 18) * 2.5))
             
         components["Squat Depth"] = depth_score
         components["Torso Alignment"] = posture_score
@@ -176,3 +176,37 @@ def calculate_form_score(exercise_type: str, metrics: dict) -> tuple:
     overall_score = int(sum(components.values()) / len(components)) if components else 100
     
     return overall_score, components
+
+
+def is_active_exercise_frame(exercise_type: str, metrics: dict) -> bool:
+    """
+    Determine if the user is actively exercising (in the middle of a rep or movement)
+    rather than resting, standing idle, or holding the start position.
+    This prevents resting 100s from inflating the average workout score.
+    """
+    if exercise_type == "Squats":
+        knee_angle = metrics.get("knee_angle", 180)
+        depth_status = str(metrics.get("depth_status", "STANDING"))
+        return knee_angle < 145 and depth_status != "STANDING"
+        
+    elif exercise_type == "Push-ups":
+        elbow_angle = metrics.get("elbow_angle", 180)
+        return elbow_angle < 150
+        
+    elif exercise_type == "Biceps Curls (Dumbbell)":
+        elbow_angle = metrics.get("elbow_angle", 180)
+        shoulder_status = str(metrics.get("shoulder_status", "STABLE"))
+        swing_status = str(metrics.get("swing_status", "NO SWING"))
+        return elbow_angle < 145 or "SWINGING" in swing_status or "DRIFTING" in shoulder_status
+        
+    elif exercise_type == "Shoulder Press":
+        elbow_angle = metrics.get("elbow_angle", 90)
+        extension_status = str(metrics.get("extension_status", "START POSITION"))
+        return elbow_angle > 105 or extension_status != "START POSITION"
+        
+    elif exercise_type == "Lunges":
+        front_knee_angle = metrics.get("front_knee_angle", 180)
+        return front_knee_angle < 145
+        
+    return True
+

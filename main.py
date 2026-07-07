@@ -654,7 +654,7 @@ def main():
         if not workout_started:
             # Show Workout Summary if a workout was just completed
             history = st.session_state.get("form_scores_history", [])
-            if len(history) > 0:
+            if len(history) > 0 or st.session_state.get("feedback_summary") or st.session_state.get("reps", 0) > 0:
                 avg_score = int(st.session_state.get("average_form_score", 0))
                 best_score = int(st.session_state.get("best_form_score", 0))
                 
@@ -685,7 +685,10 @@ def main():
                 elif imp_pct < 0:
                     improvement_badge = f"""<span style="background: rgba(239, 68, 68, 0.12); border: 1px solid rgba(239, 68, 68, 0.3); color: #F87171; padding: 6px 12px; border-radius: 20px; font-weight: 700; font-size: 0.85rem;">📉 Form score change: {imp_pct:.1f}%</span>"""
                 else:
-                    improvement_badge = """<span style="background: rgba(148, 163, 184, 0.12); border: 1px solid rgba(148, 163, 184, 0.3); color: #CBD5E1; padding: 6px 12px; border-radius: 20px; font-weight: 700; font-size: 0.85rem;">💪 Steady Form</span>"""
+                    if st.session_state.get("reps", 0) == 0 or rating == 0.0:
+                        improvement_badge = """<span style="background: rgba(239, 68, 68, 0.12); border: 1px solid rgba(239, 68, 68, 0.3); color: #F87171; padding: 6px 12px; border-radius: 20px; font-weight: 700; font-size: 0.85rem;">⚠️ No Reps Recorded</span>"""
+                    else:
+                        improvement_badge = """<span style="background: rgba(148, 163, 184, 0.12); border: 1px solid rgba(148, 163, 184, 0.3); color: #CBD5E1; padding: 6px 12px; border-radius: 20px; font-weight: 700; font-size: 0.85rem;">💪 Steady Form</span>"""
                     
                 summary_paragraph = ""
                 if feedback_summary:

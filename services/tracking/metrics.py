@@ -129,23 +129,26 @@ def sync_metrics_update(context):
                 st.session_state.weakest_area = sorted_comps[0][0]
                 st.session_state.strongest_area = sorted_comps[-1][0]
                 
-                # Update running averages for workout summary
-                sums = st.session_state.get("component_sums", {})
-                counts = st.session_state.get("component_counts", {})
-                for k, val in components.items():
-                    sums[k] = sums.get(k, 0.0) + val
-                    counts[k] = counts.get(k, 0) + 1
-                st.session_state.component_sums = sums
-                st.session_state.component_counts = counts
+            # Only record running averages and history when actively exercising
+            from services.coaching.form_analyzer import is_active_exercise_frame
+            if is_active_exercise_frame(st.session_state.exercise_type, current_metrics):
+                if components:
+                    sums = st.session_state.get("component_sums", {})
+                    counts = st.session_state.get("component_counts", {})
+                    for k, val in components.items():
+                        sums[k] = sums.get(k, 0.0) + val
+                        counts[k] = counts.get(k, 0) + 1
+                    st.session_state.component_sums = sums
+                    st.session_state.component_counts = counts
+                    
+                # Update history
+                history = st.session_state.get("form_scores_history", [])
+                history.append(score)
+                st.session_state.form_scores_history = history
                 
-            # Update history
-            history = st.session_state.get("form_scores_history", [])
-            history.append(score)
-            st.session_state.form_scores_history = history
-            
-            # Calculate running average and best score
-            st.session_state.average_form_score = sum(history) / len(history) if history else 0.0
-            st.session_state.best_form_score = max(st.session_state.best_form_score, score)
+                # Calculate running average and best score
+                st.session_state.average_form_score = sum(history) / len(history) if history else 0.0
+                st.session_state.best_form_score = max(st.session_state.best_form_score, score)
             
             st.session_state.last_score_update_time = now
 

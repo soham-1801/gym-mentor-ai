@@ -59,8 +59,19 @@ def generate_personalized_feedback(exercise_type, current_session_metrics, histo
     total_reps = current_session_metrics.get("total_reps", 0)
     total_sets = current_session_metrics.get("total_sets", 0)
     
-    # 1. Performance Rating (1.0 to 10.0)
-    rating = max(1.0, min(10.0, avg_score / 10.0))
+    if total_reps == 0 or avg_score == 0.0:
+        return {
+            "rating": 0.0,
+            "strongest_area": "N/A",
+            "weakest_area": "No Reps Completed",
+            "improvement_percentage": 0.0,
+            "feedback_summary": f"No completed repetitions were recorded for {exercise_type}. To receive an accurate biomechanical form evaluation, please complete full range-of-motion repetitions.",
+            "recommendation": "Ensure your full body is clearly visible in the camera frame and execute complete repetitions from start to finish.",
+            "voice_cue": "Workout ended with zero completed reps. Please complete full repetitions next time for accurate form analysis."
+        }
+    
+    # 1. Performance Rating (0.0 to 10.0)
+    rating = max(0.0, min(10.0, avg_score / 10.0))
     rating = round(rating, 1)
     
     # 2. Strongest and Weakest posture components from session tracking
@@ -117,7 +128,12 @@ def generate_personalized_feedback(exercise_type, current_session_metrics, histo
     elif improvement_percentage < 0:
         summary_parts.append(f"Your form score dropped by {abs(improvement_percentage):.1f}% compared to your last session. Focus on maintaining quality.")
     else:
-        summary_parts.append(f"You maintained a steady form score of {avg_score:.1f} on {exercise_type}.")
+        if avg_score >= 80:
+            summary_parts.append(f"You achieved a solid form score of {avg_score:.1f}% on {exercise_type}.")
+        elif avg_score >= 60:
+            summary_parts.append(f"Your form score averaged {avg_score:.1f}% on {exercise_type}. There is room for improvement in technique.")
+        else:
+            summary_parts.append(f"Your form score averaged {avg_score:.1f}% on {exercise_type}, indicating poor exercise execution. Please prioritize posture and range of motion.")
         
     if best_score > avg_score and total_sets > 0:
         summary_parts.append(f"Your peak set reached a form score of {best_score:.1f} across {total_sets} sets!")
@@ -216,10 +232,15 @@ def finalize_workout_feedback():
     
     history_rows = get_users_exercises(st.session_state.user_id)
     
+    reps_completed = st.session_state.get("reps", 0)
+    if reps_completed == 0:
+        st.session_state.average_form_score = 0.0
+        st.session_state.best_form_score = 0.0
+        
     current_session_metrics = {
         "average_form_score": st.session_state.get("average_form_score", 0.0),
         "best_form_score": st.session_state.get("best_form_score", 0.0),
-        "total_reps": st.session_state.get("reps", 0),
+        "total_reps": reps_completed,
         "total_sets": st.session_state.get("sets_completed", 0),
         "component_sums": st.session_state.get("component_sums", {}),
         "component_counts": st.session_state.get("component_counts", {})
